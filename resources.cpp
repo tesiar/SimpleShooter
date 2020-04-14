@@ -35,7 +35,6 @@ Model::Model(const char* model_name, const char* tex_name)
     file.close();
     file.open(tex_name);
 	if(!file.is_open()) return;
-	BITMAPINFOHEADER* infohead;
 	BITMAPFILEHEADER filehead;
 	file.read((char*)&filehead, sizeof(BITMAPFILEHEADER));
 	infohead = (BITMAPINFOHEADER*) (new BYTE[filehead.bfOffBits - sizeof(BITMAPFILEHEADER)]);
@@ -43,6 +42,6 @@ Model::Model(const char* model_name, const char* tex_name)
 	w = infohead->biWidth;
 	h = infohead->biHeight<0 ? -infohead->biHeight : infohead->biHeight;
 	tex = new RGBTRIPLE[w*h];
-	file.read((char*)tex, w*h);
+	file.read((char*)tex, w*h*3);
 	file.close();
 }

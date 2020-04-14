@@ -51,8 +51,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		TranslateMessage(&msg); /* Translate key codes to chars if present */
 		DispatchMessage(&msg); /* Send it to WndProc */
 	}
+
 	return msg.wParam;
 }
+
+Model cube3("Grass_Block.obj", "Grass_Block_TEX.bmp");
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
 	HDC hdc;
@@ -65,6 +68,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) 
 			render.Draw();
 			hdc = BeginPaint(hwnd, &ps);
 			SetDIBitsToDevice(hdc, 0,0, 1024, 720, 0, 0, 0, 720, render.GetPixels(), (BITMAPINFO*)render.GetInfo(), DIB_RGB_COLORS);
+			//SetDIBitsToDevice(hdc, 0, 0, 960, 1280, 0, 0, 0, 1280, cube3.tex, (BITMAPINFO*)cube3.infohead, DIB_RGB_COLORS);
 			EndPaint(hwnd, &ps);
 			break;
 		/* Upon destruction, tell the main thread to stop */

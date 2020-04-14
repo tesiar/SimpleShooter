@@ -69,7 +69,7 @@ void Render::Draw()
 		for(int j = 0; j < width; ++j)
 			zbuffer[i*width + j] = z_init;
 	matrix4 s;
-	s.Scale(100.);
+	s.Scale(200.);
 	s.ShiftX(400.);
 	s.ShiftY(400.);
 	matrix4 r, r2, p;
@@ -81,9 +81,9 @@ void Render::Draw()
 	{
 		//for(int j = 0; j < 3; ++j)
 		//{
-			vec3 v1 = s*r*r2*p*cube.verts[cube.faces[3*i]];
-			vec3 v2 = s*r*r2*p*cube.verts[cube.faces[3*i+1]];
-			vec3 v3 = s*r*r2*p*cube.verts[cube.faces[3*i+2]];
+			vec3 v1 = s*r*r2*cube.verts[cube.faces[3*i]];
+			vec3 v2 = s*r*r2*cube.verts[cube.faces[3*i+1]];
+			vec3 v3 = s*r*r2*cube.verts[cube.faces[3*i+2]];
 			vec3 n = (v3-v1)^(v2-v1);
 			n.normilize();
 			vec3 light(0., 0., 1.);
@@ -97,7 +97,7 @@ void Render::Draw()
 			//Line(v1.x, v1.y, v2.x, v2.y, {255, 255, 255});
 		//}
 	}
-	s.Scale(20.);
+	/*s.Scale(20.);
 	s.ShiftX(150.);
 	s.ShiftY(150.);
 	s.ShiftZ(500.);
@@ -123,7 +123,7 @@ void Render::Draw()
 			}
 			//Line(v1.x, v1.y, v2.x, v2.y, {255, 255, 255});
 		//}
-	}
+	}*/
 	rot += 1;
 	if(rot>360) rot = 0;
 	//logger << rot << std::endl << std::flush;
@@ -156,8 +156,14 @@ void Render::Triangle/*(vec3 p1, vec3 p2, vec3 p3, RGBTRIPLE color)*/(vec3 p1, v
             vec2 pt = t1*(1 - v3.x - v3.y) + t2*v3.x + t3*v3.y;
             pt.u *= w;
             pt.v *= h;
+            if(pt.u > 959.) pt.u = 959.;
+            if(pt.u < 0.) pt.u = 0.;
+            if(pt.v > 1279.) pt.v = 1279.;
+            if(pt.v < 0.) pt.v = 0.;
+            //logger << pt.u << ' ' << pt.v << std::endl;
             int tdx = ((int)pt.v)*w + (int)pt.u;
-            if(tdx>(w*h-1)||tdx<0) continue;
+            //logger << tdx << std::endl;
+            //if(tdx>(w*h-1)||tdx<0) continue;
             if(zbuffer[idx] < P.z)
 			{
 				zbuffer[idx] = P.z;

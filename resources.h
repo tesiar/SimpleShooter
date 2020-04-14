@@ -15,6 +15,7 @@ public:
 	RGBTRIPLE* tex;
 	int w, h;
 	Model(const char* model_name, const char* tex_name);
+	BITMAPINFOHEADER* infohead;
 };
 
 #endif
